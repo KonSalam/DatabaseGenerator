@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DatabaseGenerator.Generators
+namespace DatabaseGenerator
 {
     public abstract class BaseGenerator
     {
@@ -15,6 +15,6 @@ namespace DatabaseGenerator.Generators
             Random = new Random();
         }
 
-        //public abstract object Generate(GeneratorContext generatorContext);
+        public abstract string Generate(string[] list);
     }
 }

@@ -8,8 +8,12 @@ namespace DatabaseGenerator
 {
     public class Data
     {
-         public static string[] Imie = {"Konrad", "Adam", "Maciek", "Adrian", "Daniel", "Mikołaj", "Marcin", "Kuba" ,"Daria", "Julia", "Gosia", "Pawel",
+        public static string[] Imie = {"Konrad", "Adam", "Maciek", "Adrian", "Daniel", "Mikołaj", "Marcin", "Kuba" ,"Daria", "Julia", "Gosia", "Pawel",
         "Paulina","Marta","Darek","Ola","Anna","Andrzej","Piotr","Krzysiu"};
+
+        public static string[] Nazwisko = { "Nowak", "Kowalski" };
+
+        public static string[] Stanowisko = { "Kapitan", "Drugi Pilot", "Nawigator", "Technik", "Stewardesa" };     
 
     }
 }
