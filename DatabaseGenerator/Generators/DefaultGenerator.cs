@@ -16,7 +16,7 @@ namespace DatabaseGenerator
             Min = 0;
         }
 
-        public override string Generate(string[] list)
+        public string Generate(string[] list)
         {
             Max = list.Length;
             return list[Random.Next(Min, Max)];

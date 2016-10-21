@@ -9,7 +9,6 @@ namespace DatabaseGenerator
     class Lotnisko
     {
         public int ID_Lotniska { get; set; }
-
         public string Nazwa { get; set; }
         public string Kraj { get; set; }
         public string Miasto { get; set; }

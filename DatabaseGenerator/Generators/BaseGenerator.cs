@@ -14,7 +14,5 @@ namespace DatabaseGenerator
         {
             Random = new Random();
         }
-
-        public abstract string Generate(string[] list);
     }
 }

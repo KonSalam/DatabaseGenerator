@@ -8,12 +8,12 @@ namespace DatabaseGenerator
 {
     class Załoga
     {
-        public int PESEL { get; set; }
+        public string PESEL { get; set; }
         public string Imie { get; set; }
         public string Nazwisko { get; set; }
         public string Stanowisko { get; set; }
 
-        public Załoga(int PESEL, string Imie, string Nazwisko, string Stanowisko)
+        public Załoga(string PESEL, string Imie, string Nazwisko, string Stanowisko)
         {
             this.PESEL = PESEL;
             this.Imie = Imie;

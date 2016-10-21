@@ -12,7 +12,7 @@ namespace DatabaseGenerator
 {
     public partial class Form1 : Form
     {
-        private Model model;
+        private Controler Controler;
         public Form1()
         {
             InitializeComponent();
@@ -20,8 +20,8 @@ namespace DatabaseGenerator
 
         private void submit_Click(object sender, EventArgs e)
         {
-            model = new Model(Int32.Parse(textBox1.Text));
-            model.Generate();
+            Controler = new Controler(Int32.Parse(textBox1.Text));
+            Controler.Generate();
         }
     }
 }

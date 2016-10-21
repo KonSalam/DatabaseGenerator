@@ -56,7 +56,10 @@
     <Compile Include="Enity\Lotnisko.cs" />
     <Compile Include="Generators\BaseGenerator.cs" />
     <Compile Include="Generators\DefaultGenerator.cs" />
-    <Compile Include="Model.cs" />
+    <Compile Include="Controler.cs" />
+    <Compile Include="Generators\PeselGenerator.cs" />
+    <Compile Include="Helper\FileWriter.cs" />
+    <Compile Include="Interfaces\NumbersGenerator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Enity\Przelot.cs" />
