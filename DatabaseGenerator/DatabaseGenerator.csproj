@@ -58,6 +58,7 @@
     <Compile Include="Generators\DefaultGenerator.cs" />
     <Compile Include="Controler.cs" />
     <Compile Include="Generators\PeselGenerator.cs" />
+    <Compile Include="Generators\LotniskoGenerator.cs" />
     <Compile Include="Helper\FileWriter.cs" />
     <Compile Include="Interfaces\NumbersGenerator.cs" />
     <Compile Include="Program.cs" />

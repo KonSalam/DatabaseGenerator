@@ -16,7 +16,13 @@ namespace DatabaseGenerator
             Min = 0;
         }
 
-        public string Generate(string[] list)
+        public int GenerateNumber(int[] list)
+        {
+            Max = list.Length;
+            return Random.Next(Min, Max);
+        }
+
+        public string GenerateString(string[] list)
         {
             Max = list.Length;
             return list[Random.Next(Min, Max)];

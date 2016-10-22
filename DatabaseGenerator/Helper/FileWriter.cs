@@ -10,10 +10,14 @@ namespace DatabaseGenerator
     class FileWriter
     {
         public static StreamWriter file { get; set; }
-   
-        public static void WriteZalogaToFile (List<Załoga> List)
+        private static string Path { get; set; }
+
+        public static void WriteZalogaToFile(List<Załoga> List, string FileName)
         {
-            using (file = new System.IO.StreamWriter(@"C:\Users\Konrad\Documents\DatabaseFiles\WriteLines2.txt"))
+            Path = String.Format(@"C:\Users\Konrad\Documents\DatabaseFiles\{0}", FileName);
+            RemoveFile(Path);
+
+            using (file = new StreamWriter(Path))
             {
                 foreach (Załoga Obj in List)
                 {
@@ -21,7 +25,48 @@ namespace DatabaseGenerator
                 }
 
                 file.Close();
-                Console.WriteLine("Zapisywanie Zalogi SUCCES");
+                Console.WriteLine("Saving Zaloga Data Files = Succes");
+            }
+        }
+
+        public static void WriteSamolotToFile(List<Samolot> List, string FileName)
+        {
+            Path = String.Format(@"C:\Users\Konrad\Documents\DatabaseFiles\{0}", FileName);
+            RemoveFile(Path);
+
+            using (file = new StreamWriter(Path))
+            {
+                foreach (Samolot Obj in List)
+                {
+                    file.WriteLine(String.Format("{0}|{1}|{2}|{3}", Obj.IDSamolotu, Obj.Model, Obj.LiczbaMiejsc, Obj.Paliwo));
+                }
+
+                file.Close();
+                Console.WriteLine("Saving Samoloty Data Files = Succes");
+            }
+        }
+
+        public static void WriteLotniskoToFile(List<Lotnisko> List, string FileName)
+        {
+            Path = String.Format(@"C:\Users\Konrad\Documents\DatabaseFiles\{0}", FileName);
+
+            using (file = new StreamWriter(Path))
+            {
+                foreach (Lotnisko Obj in List)
+                {
+                    file.WriteLine(String.Format("{0}|{1}|{2}|{3}", Obj.ID_Lotniska, Obj.Kraj, Obj.Miasto, Obj.CzyStrefaUE));
+                }
+
+                file.Close();
+                Console.WriteLine("Saving Lotniska Data Files = Succes");
+            }
+        }
+
+        private static void RemoveFile(string path)
+        {
+            if (File.Exists(path))
+            {
+                File.Delete(path);
             }
         }
     }
