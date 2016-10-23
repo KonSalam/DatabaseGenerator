@@ -71,7 +71,7 @@ namespace DatabaseGenerator
             {
                 foreach (Przelot Obj in List)
                 {
-                    file.WriteLine(String.Format("{0}|{1}|{2}|{3}|{4}", Obj.NumerLotu, Obj.PlanowanaDataRozpoczecia, Obj.PlanowanaDataZakonczenia, Obj.FaktycznaDataRozpoczecia, Obj.FaktycznaDataZakonczenia));
+                    file.WriteLine(String.Format("{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10}|{11}|{12}", Obj.NumerLotu, Obj.PlanowanaDataRozpoczecia, Obj.PlanowanaDataZakonczenia, Obj.FaktycznaDataRozpoczecia, Obj.FaktycznaDataZakonczenia, Obj.PlanowanaLiczbaMiejscZajetych, Obj.FaktycznaLiczbaMiejscZajetych, Obj.StatusLotu, Obj.FK_LotniskoPoczatkowe,Obj.FK_PlanowaneLotniskoKoncowe,Obj.FK_FaktyczneLotniskoKoncowe,Obj.FK_PlanowanySamolot,Obj.FK_FaktycznySamolot));
                 }
 
                 file.Close();
@@ -87,7 +87,7 @@ namespace DatabaseGenerator
             {
                 foreach (Zdarzenia Obj in List)
                 {
-                    file.WriteLine(String.Format("{0}|{1}|{2}|{3}", Obj.DataZdarzenia, Obj.FK_Przelot, Obj.Typ, Obj.Opis));
+                    file.WriteLine(String.Format("{0}|{1}", Obj.DataZdarzenia, Obj.FK_Przelot));
                 }
 
                 file.Close();
@@ -95,11 +95,27 @@ namespace DatabaseGenerator
             }
         }
 
+        public static void WritePrzelotZalogaToFile(List<PrzelotZałoga> List, string FileName)
+        {
+            Path = String.Format(@"C:\Users\Konrad\Documents\DatabaseFiles\{0}", FileName);
+
+            using (file = new StreamWriter(Path))
+            {
+                foreach (PrzelotZałoga Obj in List)
+                {
+                    file.WriteLine(String.Format("{0}|{1}", Obj.FK_Przelot, Obj.FK_Zaloga));
+                }
+
+                file.Close();
+                Console.WriteLine("Saving PrzelotZaloga Data Files = Succes");
+            }
+        }
+
         public static void WriteZdarzeniaToXML(List<Zdarzenia> List, string FileName)
         {
             Path = String.Format(@"C:\Users\Konrad\Documents\DatabaseFiles\{0}", FileName);
             XmlRootAttribute oRootAttr = new XmlRootAttribute();
-            oRootAttr.ElementName= "zdarzenia";
+            oRootAttr.ElementName = "zdarzenia";
             oRootAttr.IsNullable = true;
             XmlSerializer oSerializer = new XmlSerializer(typeof(List<Zdarzenia>), oRootAttr);
 

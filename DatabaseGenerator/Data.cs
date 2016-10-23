@@ -35,14 +35,14 @@ namespace DatabaseGenerator
         // public static int[] LiczbaMiejsc = { 900, 853, 800, 776, 700, 680, 640, 624, 550, 525, 440, 372, 350, 295 }; 
         public static int[] LiczbaMiejsc = { 56, 54, 52, 50, 48, 46, 44, 42, 40, 38, 36, 34, 32, 30, 28, 26, 24 };
 
-        public static int[] Paliwo = { 310000, 300000, 290000, 280000, 27000, 260000, 250000, 240000, 230000, 220000, 210000, 200000, 190000, 18000, 170000, 160000, 150000 };
+        public static int[] Paliwo = { 310000, 300000, 290000, 280000, 270000, 260000, 250000, 240000, 230000, 220000, 210000, 200000, 190000, 180000, 170000, 160000, 150000 };
 
         // Zdarzenia
         public static Dictionary<string, string[]> ZdarzeniaTypOpis = new Dictionary<string, string[]>()
         {
             {"Kolizja", new string[] {"wina pilota","turbulencja", "zderzenie z ptakiem", "wtargniecie na pas startowy", "blad stacji kontroli lotow"} },
             {"Pogoda",  new string[] {"mgla", "burza", "silny wiatr", "huragan"} },
-            {"Uszkodzenie samolotu",  new string[] {"uszkodzenie silnika","uszkodzenia podwozia", "uszkodzenie nadwozia", "uszkodzenie skrzydla"} },
+            {"Uszkodzenie samolotu",  new string[] {"uszkodzenie silnika","uszkodzenie podwozia", "uszkodzenie nadwozia", "uszkodzenie skrzydla"} },
             {"Wypadek na pokladzie",  new string[] {"pozar", "sabotaz", "atak pasazera" } },
             {"Awaria",  new string[] {"nieszczelnosc", "wyciek paliwa", "brak ciagu", "brak lacznosci", "awaria czujników", "awaria elektroniki" } }
         };

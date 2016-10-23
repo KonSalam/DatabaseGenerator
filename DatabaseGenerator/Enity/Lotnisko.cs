@@ -11,9 +11,9 @@ namespace DatabaseGenerator
         public int ID_Lotniska { get; set; }
         public string Kraj { get; set; }
         public string Miasto { get; set; }
-        public bool CzyStrefaUE { get; set; }
+        public int CzyStrefaUE { get; set; }
 
-        public Lotnisko(int ID_Lotniska, string Kraj, string Miasto, bool CzyStrefaUE)
+        public Lotnisko(int ID_Lotniska, string Kraj, string Miasto, int CzyStrefaUE)
         {
             this.ID_Lotniska = ID_Lotniska;
             this.Kraj = Kraj;

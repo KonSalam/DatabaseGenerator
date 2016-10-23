@@ -43,10 +43,14 @@ namespace DatabaseGenerator
             int index = 0;
             GenerateZaloga(IleLotow);
             GenerateSamolot(IleLotow);
-            FillLotniska(Data.LotnistkoKrajMiasto, false, ref index);
-            FillLotniska(Data.LotniskoKrajMiastoUE, true, ref index);
+            FillLotniska(Data.LotnistkoKrajMiasto, 0, ref index);
+            FillLotniska(Data.LotniskoKrajMiastoUE, 1, ref index);
             GeneratePrzelot(IleLotow);
+            GeneratePrzelotSamolot();
+            GeneratePrzelotLotnisko();
             GenerateZdarzenia();
+            FileWriter.WritePrzelotToFile(ListOfPrzelot, "PrzelotT1.bulk");
+            GeneratePrzelotZaloga();
         }
 
         private void GeneratePrzelot(int IleLotow)
@@ -80,9 +84,66 @@ namespace DatabaseGenerator
                     status = Data.Status[1];
                 }
 
-                ListOfPrzelot.Add(new Przelot(i, DateTimePlanedStart, DateTimePlanedEnd, DateTimeRealStart, DateTimeRealEnd, 0, 0, status, 0, 0, 0, 0, 0));
+                ListOfPrzelot.Add(new Przelot(i, DateTimePlanedStart, DateTimePlanedEnd, DateTimeRealStart, DateTimeRealEnd, status));
             }
-            FileWriter.WritePrzelotToFile(ListOfPrzelot, "PrzelotT1.bulk");
+
+        }
+
+        private void GeneratePrzelotSamolot()
+        {
+            foreach (Przelot przelot in ListOfPrzelot)
+            {
+                przelot.FK_PlanowanySamolot = DefaultGenerator.Random.Next(0, ListOfSamolot.Count);
+                if (DefaultGenerator.Random.Next(0, 4) != 3)
+                {
+                    przelot.FK_FaktycznySamolot = przelot.FK_PlanowanySamolot;
+                }
+                else
+                {
+                    przelot.FK_FaktycznySamolot = DefaultGenerator.Random.Next(0, ListOfSamolot.Count);
+                }
+                przelot.PlanowanaLiczbaMiejscZajetych = ListOfSamolot[przelot.FK_FaktycznySamolot].LiczbaMiejsc - DefaultGenerator.Random.Next(0, 6);
+                przelot.FaktycznaLiczbaMiejscZajetych = przelot.PlanowanaLiczbaMiejscZajetych - DefaultGenerator.Random.Next(0, 5);
+            }
+        }
+
+        private void GeneratePrzelotLotnisko()
+        {
+            foreach (Przelot przelot in ListOfPrzelot)
+            {
+                while (true)
+                {
+                    przelot.FK_LotniskoPoczatkowe = DefaultGenerator.Random.Next(0, ListOfLotnisko.Count);
+                    przelot.FK_PlanowaneLotniskoKoncowe = DefaultGenerator.Random.Next(0, ListOfLotnisko.Count);
+                    if (przelot.FK_LotniskoPoczatkowe != przelot.FK_PlanowaneLotniskoKoncowe) break;
+                }
+
+                if (DefaultGenerator.Random.Next(0, 8) != 7)
+                {
+                    przelot.FK_FaktyczneLotniskoKoncowe = przelot.FK_PlanowaneLotniskoKoncowe;
+                }
+                else
+                {
+                    while (true)
+                    {
+                        przelot.FK_FaktyczneLotniskoKoncowe = DefaultGenerator.Random.Next(0, ListOfLotnisko.Count);
+                        if (przelot.FK_LotniskoPoczatkowe != przelot.FK_FaktyczneLotniskoKoncowe) break;
+                    }
+                }
+            }
+        }
+
+        private void GeneratePrzelotZaloga()
+        {
+            for (int i = 0; i < ListOfPrzelot.Count; i++)
+            {
+                for (int j = i * 6; j < i * 6 + 6; j++)
+                {
+                    ListOfPrzelotZaloga.Add(new PrzelotZałoga(ListOfPrzelot[i].NumerLotu, ListOfZaloga[j].PESEL));
+                }
+            }
+
+            FileWriter.WritePrzelotZalogaToFile(ListOfPrzelotZaloga, "PrzelotZalogaT1.bulk");
         }
 
         private void GenerateZdarzenia()
@@ -107,12 +168,38 @@ namespace DatabaseGenerator
 
         private void GenerateZaloga(int IleLotow)
         {
+            string pesel;
             for (int i = 0; i < IleLotow; i++)
             {
-                ListOfZaloga.Add(new Załoga(PeselGenerator.GeneratePeselNumbers(), Generator.GenerateString(Data.Imie), Generator.GenerateString(Data.Nazwisko), Generator.GenerateString(Data.Stanowisko)));
+                for (int j = 0; j < 6; j++)
+                {
+                    while (true)
+                    {
+                        pesel = PeselGenerator.GeneratePeselNumbers();
+
+                        if (isAddedPeselNumber(pesel) == false)
+                        {
+                            break;
+                        }
+                    }
+
+                    ListOfZaloga.Add(new Załoga(pesel, Generator.GenerateString(Data.Imie), Generator.GenerateString(Data.Nazwisko), Data.Stanowisko[j]));
+                }
             }
 
             FileWriter.WriteZalogaToFile(ListOfZaloga, "ZalogaT1.bulk");
+        }
+
+        private bool isAddedPeselNumber(string Pesel)
+        {
+            foreach (Załoga person in ListOfZaloga)
+            {
+                if (person.PESEL.Equals(Pesel))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void GenerateSamolot(int ileLotow)
@@ -126,7 +213,7 @@ namespace DatabaseGenerator
             FileWriter.WriteSamolotToFile(ListOfSamolot, "SamolotyT1.bulk");
         }
 
-        private void FillLotniska(Dictionary<string, string[]> LotnistkoKrajMiasto, bool flaga, ref int index)
+        private void FillLotniska(Dictionary<string, string[]> LotnistkoKrajMiasto, int flaga, ref int index)
         {
             var KrajList = LotnistkoKrajMiasto.Keys.ToList();
 

@@ -9,9 +9,9 @@ namespace DatabaseGenerator
     class PrzelotZałoga
     {
         public int FK_Przelot { get; set; } // Numer Lotu
-        public int FK_Zaloga { get; set; } // Pesel
+        public string FK_Zaloga { get; set; } // Pesel
 
-        public PrzelotZałoga(int FK_Przelot, int FK_Zaloga)
+        public PrzelotZałoga(int FK_Przelot, string FK_Zaloga)
         {
             this.FK_Przelot = FK_Przelot;
             this.FK_Zaloga = FK_Zaloga;
