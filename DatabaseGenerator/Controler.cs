@@ -17,7 +17,8 @@ namespace DatabaseGenerator
         public int IleLotow { get; set; }
         private DefaultGenerator Generator { get; set; }
         private PeselGenerator PeselGenerator { get; set; }
-        private LotniskoGenerator LotniskoGenerator { get; set; }
+        private ZdarzeniaGenerator ZdarzeniaGenerator { get; set; }
+        private DateTimeGenerator DataTimeGeneratror { get; set; }
         private FileWriter FileWriter { get; set; }
         private Data Data { get; }
 
@@ -33,7 +34,8 @@ namespace DatabaseGenerator
 
             Generator = new DefaultGenerator();
             PeselGenerator = new PeselGenerator();
-            LotniskoGenerator = new LotniskoGenerator();
+            ZdarzeniaGenerator = new ZdarzeniaGenerator();
+            DataTimeGeneratror = new DateTimeGenerator("2016-10-01 12:00");
         }
 
         public void Generate()
@@ -41,17 +43,66 @@ namespace DatabaseGenerator
             int index = 0;
             GenerateZaloga(IleLotow);
             GenerateSamolot(IleLotow);
-            FillLotniska(Data.LotniskoKarjMiasto, false, ref index);
-            FillLotniska(Data.LotniskoKarjMiastoUE, true, ref index);
+            FillLotniska(Data.LotnistkoKrajMiasto, false, ref index);
+            FillLotniska(Data.LotniskoKrajMiastoUE, true, ref index);
+            GeneratePrzelot(IleLotow);
+            GenerateZdarzenia();
         }
 
         private void GeneratePrzelot(int IleLotow)
         {
+            DateTime DateTimePlanedStart;
+            DateTime DateTimePlanedEnd;
+            DateTime DateTimeRealStart;
+            DateTime DateTimeRealEnd;
+            string status;
+
+            DataTimeGeneratror.GeneratePlanedDateTimeEnd();
             for (int i = 0; i < IleLotow; i++)
             {
+                //Start DateTime Generator
+                DateTimePlanedStart = DataTimeGeneratror.DateTimePlanedStart;
+                DataTimeGeneratror.GenerateRealDateTimeStart();
+                DateTimeRealStart = DataTimeGeneratror.DateTimeRealStart;
+                DataTimeGeneratror.GeneratePlanedDateTimeEnd();
 
+                //End DateTime Generator
+                DateTimePlanedEnd = DataTimeGeneratror.DateTimePlanedEnd;
+                DataTimeGeneratror.GenerateRealDateTimeEnd();
+                DateTimeRealEnd = DataTimeGeneratror.DateTimeRealEnd;
 
+                if ((DateTimePlanedStart == DateTimeRealStart) && (DateTimePlanedEnd == DateTimeRealEnd))
+                {
+                    status = Data.Status[0];
+                }
+                else
+                {
+                    status = Data.Status[1];
+                }
+
+                ListOfPrzelot.Add(new Przelot(i, DateTimePlanedStart, DateTimePlanedEnd, DateTimeRealStart, DateTimeRealEnd, 0, 0, status, 0, 0, 0, 0, 0));
             }
+            FileWriter.WritePrzelotToFile(ListOfPrzelot, "PrzelotT1.bulk");
+        }
+
+        private void GenerateZdarzenia()
+        {
+            foreach (Przelot przelot in ListOfPrzelot)
+            {
+                int numberOfZdarzenia = DefaultGenerator.Random.Next(1, 4);
+                ZdarzeniaGenerator.DateTimeStart = przelot.FaktycznaDataRozpoczecia;
+
+                for (int j = 0; j < numberOfZdarzenia; j++)
+                {
+                    int typNumber = ZdarzeniaGenerator.GenerateTyp(Data.ZdarzeniaTypOpis);
+                    var typZdarzeniaList = Data.ZdarzeniaTypOpis.Keys.ToList();
+                    DateTime tmpDateTime = ZdarzeniaGenerator.GenerateDateTimeZdarzenia(przelot.FaktycznaDataZakonczenia, numberOfZdarzenia);
+
+                    ListOfZdarzenia.Add(new Zdarzenia(tmpDateTime, przelot.NumerLotu, typZdarzeniaList[typNumber], ZdarzeniaGenerator.GenerateOpis(Data.ZdarzeniaTypOpis, typZdarzeniaList[typNumber])));
+                }
+            }
+            FileWriter.WriteZdarzeniaToFile(ListOfZdarzenia, "ZdarzeniaT1.bulk");
+            FileWriter.WriteZdarzeniaToXML(ListOfZdarzenia, "XmlZdarzeniaT1.xml");
         }
 
         private void GenerateZaloga(int IleLotow)
@@ -69,20 +120,20 @@ namespace DatabaseGenerator
             for (int i = 0; i < IleLotow; i++)
             {
                 int tmpRandomNumber = Generator.GenerateNumber(Data.LiczbaMiejsc);
-                ListOfSamolot.Add(new Samolot(i, Generator.GenerateString(Data.Model), Data.LiczbaMiejsc[tmpRandomNumber], Data.Paliwo[0]));
+                ListOfSamolot.Add(new Samolot(i, Data.Model[tmpRandomNumber], Data.LiczbaMiejsc[tmpRandomNumber], Data.Paliwo[tmpRandomNumber]));
             }
 
             FileWriter.WriteSamolotToFile(ListOfSamolot, "SamolotyT1.bulk");
         }
 
-        private void FillLotniska(Dictionary<string, string[]> LotniskoKarjMiasto, bool flaga, ref int index)
+        private void FillLotniska(Dictionary<string, string[]> LotnistkoKrajMiasto, bool flaga, ref int index)
         {
-            var KrajList = LotniskoKarjMiasto.Keys.ToList();
+            var KrajList = LotnistkoKrajMiasto.Keys.ToList();
 
             foreach (string Kraj in KrajList)
             {
                 string[] tmpMiastoArray;
-                LotniskoKarjMiasto.TryGetValue(Kraj, out tmpMiastoArray);
+                LotnistkoKrajMiasto.TryGetValue(Kraj, out tmpMiastoArray);
 
                 foreach (string Miasto in tmpMiastoArray)
                 {

@@ -18,11 +18,11 @@ namespace DatabaseGenerator
 
         public string GeneratePeselNumbers()
         {
-            FirstNumbers = Random.Next(29, 96);
-            SecondNumbers = Random.Next(0, 12);
-            ThirdNumbers = Random.Next(0, 30);
-            FourthNumbers = Random.Next(0, 99);
-            FivethNumbers = Random.Next(0, 99);
+            FirstNumbers = Random.Next(29, 97);
+            SecondNumbers = Random.Next(0, 13);
+            ThirdNumbers = Random.Next(0, 31);
+            FourthNumbers = Random.Next(0, 100);
+            FivethNumbers = Random.Next(0, 100);
             EndNumber = Random.Next(0, 9);
 
             #region
