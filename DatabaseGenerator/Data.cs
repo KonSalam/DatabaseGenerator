@@ -21,10 +21,10 @@ namespace DatabaseGenerator
 
         public static string[] Nazwisko = { "Nowak", "Salamon", "Grzyb", "Dab", "Dudek", "Mazur", "Wojcik", "Kaczmarek", "Krawczyk", "Adamczyk", "Zajac", "Krol",
         "Wrobel", "Pawlak", "Walczak", "Stepien", "Sikora", "Baran", "Duda", "Szewczyk", "Pietrzak", "Bak", "Kubiak", "Wilk", "Lis", "Los", "Kuna", "Jenot", "Rys",
-        "Zubr", "Bazant", "Lyska", "Bekas", "Cietrzew", "Mazurek", "Sobczak", "Kazimierczak", "Cieslak", "Kołodziej", "Szymczak", "Szulc", "Mroz", "Mrozkowiak",
+        "Zubr", "Bazant", "Lyska", "Bekas", "Cietrzew", "Mazurek", "Sobczak", "Kazimierczak", "Cieslak", "Kolodziej", "Szymczak", "Szulc", "Mroz", "Mrozkowiak",
         "Krupa", "Kozak", "Kania", "Mucha", "Tomczak", "Koziol", "Kowalik", "Janik", "Musial", "Tomczyk", "Jarosz", "Kurek", "Kopec", "Zak", "Luczak", "Dziedzic",
         "Kot", "Stasiak", "Piatek", "Polak", "Kruk", "Jozwiak", "Urban", "Pawlik", "Domagala", "Zieba", "Janicki", "Maj", "Sowa", "Gajda", "Klimek", "Ratajczak",
-        "Madej", "Kasprzak", "Grzelak", "Marek", "Kowal", "Bednarczyk", "Skiba", "Wrona", "Owczarek", "Matusiak", "Olejnik", "Pająk", "Czech", "Lukasik", "Lesniak"};
+        "Madej", "Kasprzak", "Grzelak", "Marek", "Kowal", "Bednarczyk", "Skiba", "Wrona", "Owczarek", "Matusiak", "Olejnik", "Pajak", "Czech", "Lukasik", "Lesniak"};
 
         public static string[] Stanowisko = { "Kapitan", "Drugi Pilot", "Nawigator", "Technik", "Starszy Steward", "Steward" };
 
@@ -44,7 +44,7 @@ namespace DatabaseGenerator
             {"Pogoda",  new string[] {"mgla", "burza", "silny wiatr", "huragan"} },
             {"Uszkodzenie samolotu",  new string[] {"uszkodzenie silnika","uszkodzenie podwozia", "uszkodzenie nadwozia", "uszkodzenie skrzydla"} },
             {"Wypadek na pokladzie",  new string[] {"pozar", "sabotaz", "atak pasazera" } },
-            {"Awaria",  new string[] {"nieszczelnosc", "wyciek paliwa", "brak ciagu", "brak lacznosci", "awaria czujników", "awaria elektroniki" } }
+            {"Awaria",  new string[] {"nieszczelnosc", "wyciek paliwa", "brak ciagu", "brak lacznosci", "awaria czujnikow", "awaria elektroniki" } }
         };
 
         // Lotniska

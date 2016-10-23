@@ -23,5 +23,10 @@ namespace DatabaseGenerator
             Controler = new Controler(Int32.Parse(textBox1.Text));
             Controler.Generate();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Controler.GenerateT2(Int32.Parse(textBox2.Text));
+        }
     }
 }

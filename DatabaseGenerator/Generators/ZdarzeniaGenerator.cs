@@ -21,8 +21,10 @@ namespace DatabaseGenerator
         {
             int hours = Math.Abs((DateEnd.Hour - DateTimeStart.Hour) * 60);
             int minutes = Math.Abs(DateEnd.Minute - DateTimeStart.Minute);
+            int dependecy = ((hours + minutes) / IloscZdarzen);
 
-            DateTimeStart = DateTimeStart.AddMinutes(Random.Next(1, ((hours + minutes) / IloscZdarzen)));
+            if (dependecy < 1) dependecy = 2;
+            DateTimeStart = DateTimeStart.AddMinutes(Random.Next(1, dependecy));
             return DateTimeStart;
         }
 

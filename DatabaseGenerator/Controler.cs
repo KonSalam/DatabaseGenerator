@@ -53,6 +53,21 @@ namespace DatabaseGenerator
             GeneratePrzelotZaloga();
         }
 
+        public void GenerateT2(int IleLotow)
+        {
+            ChangeZaloga();
+            AddSamolotAndZaloga(IleLotow);
+
+            Console.WriteLine("T2 GENERUJE !!");
+            FileWriter.WriteSamolotToFile(ListOfSamolot, "SamolotyT2.bulk");
+            FileWriter.WriteZalogaToFile(ListOfZaloga, "ZalogaT2.bulk");
+            FileWriter.WriteLotniskoToFile(ListOfLotnisko, "LotniskaT2.bulk");
+            FileWriter.WriteZdarzeniaToFile(ListOfZdarzenia, "ZdarzeniaT2.bulk");
+            FileWriter.WriteZdarzeniaToXML(ListOfZdarzenia, "XmlZdarzeniaT2.xml");
+            FileWriter.WritePrzelotToFile(ListOfPrzelot, "PrzelotT2.bulk");
+            FileWriter.WritePrzelotZalogaToFile(ListOfPrzelotZaloga, "PrzelotZalogaT2.bulk");
+        }
+
         private void GeneratePrzelot(int IleLotow)
         {
             DateTime DateTimePlanedStart;
@@ -190,6 +205,59 @@ namespace DatabaseGenerator
             FileWriter.WriteZalogaToFile(ListOfZaloga, "ZalogaT1.bulk");
         }
 
+        private void ChangeZaloga()
+        {
+            foreach (Załoga person in ListOfZaloga)
+            {
+                if (person.Stanowisko.Equals("Steward"))
+                {
+                    if (DefaultGenerator.Random.Next(0, 2) == 1)
+                    {
+                        person.Stanowisko = "Starszy Steward";
+                    }
+                }
+
+                if (person.Stanowisko.Equals("Drugi Pilot"))
+                {
+                    if (DefaultGenerator.Random.Next(0, 2) == 1)
+                    {
+                        person.Stanowisko = "Kapitan";
+                    }
+                }
+            }
+        }
+
+        private void AddSamolotAndZaloga(int ile)
+        {
+            string pesel;
+            int SamolotListSize = ListOfSamolot.Count;
+            int ZalogaListSize = ListOfZaloga.Count;
+
+            for (int i = SamolotListSize; i < SamolotListSize + ile; i++)
+            {
+                int tmpRandomNumber = Generator.GenerateNumber(Data.LiczbaMiejsc);
+                ListOfSamolot.Add(new Samolot(i, Data.Model[tmpRandomNumber], Data.LiczbaMiejsc[tmpRandomNumber], Data.Paliwo[tmpRandomNumber]));
+            }
+
+            for (int i = ZalogaListSize; i < ZalogaListSize + ile; i++)
+            {
+                for (int j = 0; j < 6; j++)
+                {
+                    while (true)
+                    {
+                        pesel = PeselGenerator.GeneratePeselNumbers();
+
+                        if (isAddedPeselNumber(pesel) == false)
+                        {
+                            break;
+                        }
+                    }
+                    ListOfZaloga.Add(new Załoga(pesel, Generator.GenerateString(Data.Imie), Generator.GenerateString(Data.Nazwisko), Data.Stanowisko[j]));
+                }
+
+            }
+        }
+
         private bool isAddedPeselNumber(string Pesel)
         {
             foreach (Załoga person in ListOfZaloga)
@@ -204,7 +272,7 @@ namespace DatabaseGenerator
 
         private void GenerateSamolot(int ileLotow)
         {
-            for (int i = 0; i < IleLotow; i++)
+            for (int i = 0; i < IleLotow + 5; i++)
             {
                 int tmpRandomNumber = Generator.GenerateNumber(Data.LiczbaMiejsc);
                 ListOfSamolot.Add(new Samolot(i, Data.Model[tmpRandomNumber], Data.LiczbaMiejsc[tmpRandomNumber], Data.Paliwo[tmpRandomNumber]));
